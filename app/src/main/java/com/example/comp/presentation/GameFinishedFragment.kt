@@ -1,13 +1,13 @@
-package ru.sumin.composition.presentation
+package com.example.comp.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ru.sumin.composition.R
-import ru.sumin.composition.databinding.FragmentChooseLevelBinding
-import ru.sumin.composition.databinding.FragmentGameFinishedBinding
+import com.example.comp.R
+import com.example.comp.databinding.FragmentChooseLevelBinding
+import com.example.comp.databinding.FragmentGameFinishedBinding
 
 class GameFinishedFragment : Fragment() {
 
