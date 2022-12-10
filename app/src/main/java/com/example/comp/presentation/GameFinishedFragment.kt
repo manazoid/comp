@@ -16,7 +16,8 @@ class GameFinishedFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentGameFinishedBinding == null")
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGameFinishedBinding.inflate(inflater, container, false)
