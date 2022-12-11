@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.example.comp.R
 import com.example.comp.databinding.FragmentGameFinishedBinding
 import com.example.comp.domain.entity.GameResult
 import com.example.comp.domain.entity.GameSettings
@@ -43,23 +44,56 @@ class GameFinishedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val minCorrectCount = gameSettings.minCountOfCorrectAnswers
         with(binding) {
-            tvRequiredAnswers.text = minCorrectCount.toString()
-            tvRequiredPercentage.text = gameSettings.minPercentOfCorrectAnswers.toString()
-            tvScoreAnswers.text = gameResult.countOfAnswers.toString()
-            tvScorePercentage.text = (gameResult.countOfCorrectAnswers / minCorrectCount).toString()
+            emojiResult.setImageResource(getSmileResId())
+            tvRequiredAnswers.text = String.format(
+                getString(R.string.required_score),
+                gameSettings.minCountOfCorrectAnswers
+            )
+
+            tvRequiredPercentage.text = String.format(
+                getString(R.string.required_percentage),
+                gameSettings.minPercentOfCorrectAnswers
+            )
+
+            tvScoreAnswers.text = String.format(
+                getString(R.string.score_answers),
+                gameResult.countOfCorrectAnswers
+            )
+
+            tvScorePercentage.text = String.format(
+                getString(R.string.score_percentage),
+                percentResult()
+            )
         }
+
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 retryGame()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-        binding.buttonRetry.setOnClickListener{
+        binding.buttonRetry.setOnClickListener {
             retryGame()
         }
     }
+
+    private fun getSmileResId(): Int {
+        return if (gameResult.winner) {
+            R.drawable.ic_smile
+        } else {
+            R.drawable.ic_sad
+        }
+    }
+
+    private fun percentResult() = with(gameResult) {
+        if (countOfAnswers == 0) {
+            0
+        } else {
+            ((countOfCorrectAnswers / countOfAnswers.toDouble()) * PERCENT).toInt()
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -75,6 +109,7 @@ class GameFinishedFragment : Fragment() {
 
     companion object {
 
+        const val PERCENT = 100
         private const val KEY_GAME_RESULT = "result"
 
         fun newInstance(gameResult: GameResult): GameFinishedFragment {
