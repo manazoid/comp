@@ -1,10 +1,12 @@
 package com.example.comp.domain.entity
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-data class GameResult (
+@Parcelize
+data class GameResult(
     val winner: Boolean,
     val countOfCorrectAnswers: Int,
     val countOfAnswers: Int,
     val gameSettings: GameSettings
-        ) : Serializable
+) : Parcelable
